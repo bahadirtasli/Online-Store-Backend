@@ -41,7 +41,7 @@ public class Product extends Auditable<String> implements Serializable {
     private ProductType productType;
 
     @OneToMany(cascade = CascadeType.MERGE)
-    List<Authority> authorities;
+    List<Author> authorities;
 
 
 }

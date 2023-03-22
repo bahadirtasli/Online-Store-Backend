@@ -10,5 +10,5 @@ import java.util.Optional;
  * @Date 3/22/2023
  */
 public interface UserRepository extends JpaRepository<User,Long> {
-    Optional<User> findByEmail(String email);
+    Optional<User> findByFullName(String fullName);
 }

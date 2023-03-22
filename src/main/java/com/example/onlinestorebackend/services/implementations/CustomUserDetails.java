@@ -23,7 +23,7 @@ public class CustomUserDetails implements UserDetails {
     private User user;
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getAuthority().getFirstName());
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getAuthor().getFirstName());
         return Collections.singletonList(authority);
     }
 

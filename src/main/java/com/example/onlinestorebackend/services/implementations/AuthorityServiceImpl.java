@@ -1,7 +1,7 @@
 package com.example.onlinestorebackend.services.implementations;
 
 import com.example.onlinestorebackend.exceptions.AuthorityNotFoundException;
-import com.example.onlinestorebackend.models.Authority;
+import com.example.onlinestorebackend.models.Author;
 import com.example.onlinestorebackend.repositories.AuthorityRepository;
 import com.example.onlinestorebackend.services.AuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +23,13 @@ public class AuthorityServiceImpl implements AuthorityService {
     private AuthorityRepository authorityRepository;
 
     @Override
-    public List<Authority> findAllAuthorities() {
+    public List<Author> findAllAuthorities() {
         return authorityRepository.findAll();
     }
 
     @Override
-    public Authority findAuthorityByFirstName(String firstName) throws AuthorityNotFoundException {
-        Optional<Authority> optionalAuthority = authorityRepository.findByFirstName(firstName);
+    public Author findAuthorityByFirstName(String firstName) throws AuthorityNotFoundException {
+        Optional<Author> optionalAuthority = authorityRepository.findByFirstName(firstName);
 
         if (optionalAuthority.isEmpty()) {
             throw new AuthorityNotFoundException(firstName);
@@ -39,10 +39,10 @@ public class AuthorityServiceImpl implements AuthorityService {
     }
 
     @Override
-    public void createAuthority(Authority authority) {
+    public void createAuthority(Author author) {
 
-        authority.setActive(true);
-        authorityRepository.save(authority);
+        author.setActive(true);
+        authorityRepository.save(author);
 
     }
 }

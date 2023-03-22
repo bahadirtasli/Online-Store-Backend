@@ -22,6 +22,8 @@ public class User extends Auditable<String> implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private String fullName;
+
     private String email;
     private String password;
 
@@ -30,12 +32,11 @@ public class User extends Auditable<String> implements Serializable {
 
     private String logoType;
 
-
-    //do we need roleId?
+    //
     private int roleId;
 
     @OneToOne(cascade = CascadeType.MERGE)
-    private Authority authority;
+    private Author author;
     private boolean isActive;
 
 }

@@ -25,8 +25,8 @@ public class OrderLine extends Auditable<String> implements Serializable {
     @OneToMany(cascade = CascadeType.MERGE)
     private List<Product> products;
 
-    private String qtyOfProducts;
+    private float qtyOfProducts;
 
-    private String productPrice;
+    private float productPrice;
 
 }

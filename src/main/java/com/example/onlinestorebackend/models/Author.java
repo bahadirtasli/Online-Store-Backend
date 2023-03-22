@@ -16,7 +16,7 @@ import java.io.Serializable;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Authority extends Auditable<String> implements Serializable {
+public class Author extends Auditable<String> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

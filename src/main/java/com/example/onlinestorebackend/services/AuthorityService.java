@@ -1,7 +1,7 @@
 package com.example.onlinestorebackend.services;
 
 import com.example.onlinestorebackend.exceptions.AuthorityNotFoundException;
-import com.example.onlinestorebackend.models.Authority;
+import com.example.onlinestorebackend.models.Author;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public interface AuthorityService {
      *
      * @return a list of authorities
      */
-    List<Authority> findAllAuthorities();
+    List<Author> findAllAuthorities();
 
     /**
      * To find authority by firstName
@@ -23,13 +23,13 @@ public interface AuthorityService {
      * @param firstName Authority firstName
      * @return Authority
      */
-    Authority findAuthorityByFirstName(String firstName) throws AuthorityNotFoundException;
+    Author findAuthorityByFirstName(String firstName) throws AuthorityNotFoundException;
 
     /**
      * To create a new authority
      *
-     * @param authority Authority
+     * @param author Authority
      */
-    void createAuthority(Authority authority);
+    void createAuthority(Author author);
 
 }

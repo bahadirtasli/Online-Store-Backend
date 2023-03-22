@@ -1,6 +1,6 @@
 package com.example.onlinestorebackend.repositories;
 
-import com.example.onlinestorebackend.models.Authority;
+import com.example.onlinestorebackend.models.Author;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,6 +11,6 @@ import java.util.Optional;
  * @Date 3/22/2023
  */
 @Repository
-public interface AuthorityRepository extends JpaRepository<Authority,Long> {
-    Optional<Authority> findByFirstName(String firstName);
+public interface AuthorityRepository extends JpaRepository<Author,Long> {
+    Optional<Author> findByFirstName(String firstName);
 }

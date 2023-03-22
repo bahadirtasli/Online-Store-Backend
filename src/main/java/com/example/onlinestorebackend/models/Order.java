@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -23,20 +24,23 @@ public class Order  extends Auditable<String> implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String userName;
+    private String username;
 
-    private String totalCost;
+    private float totalCost;
 
     private String deliveryAddress;
 
     private String userAddress;
 
-    private Date dateOfOrder;
+    private LocalDateTime dateOfOrder;
 
     @OneToMany(cascade = CascadeType.ALL)
     List<OrderLine>orderLines;
 
-    //CUSTOMER??
+
+    //Check later
+    @OneToMany(cascade = CascadeType.MERGE)
+    List<User> users;
 
     @Enumerated(EnumType.STRING)
     private Status status;
