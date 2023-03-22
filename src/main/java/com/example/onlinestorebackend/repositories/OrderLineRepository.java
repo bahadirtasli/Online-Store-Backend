@@ -18,7 +18,6 @@ public interface OrderLineRepository extends JpaRepository<OrderLine,Long> {
 
     Optional<OrderLine> findById(Long id);
 
-    List<OrderLine> findAllByOrder(Order order);
 
 
 }

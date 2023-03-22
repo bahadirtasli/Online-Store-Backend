@@ -22,7 +22,7 @@ import static com.example.onlinestorebackend.utils.Constants.Security.AUTHORITY_
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    /*
+
     @Bean
     public UserDetailsService userDetailsService () {
         return new CustomUserDetailsService();
@@ -72,5 +72,4 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf().disable();
     }
 
-     */
 }

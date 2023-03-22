@@ -37,6 +37,6 @@ public class User extends Auditable<String> implements Serializable {
 
     @OneToOne(cascade = CascadeType.MERGE)
     private Author author;
-    private boolean isActive;
+
 
 }

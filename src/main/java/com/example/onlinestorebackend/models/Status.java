@@ -8,11 +8,10 @@ public enum Status {
 
     ACTIVE,
     NONACTIVE,
-
     DELIVERED,
-
+    PENDING,
     SHIPPING,
-
     PAID,
+
 
 }

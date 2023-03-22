@@ -18,12 +18,12 @@ public interface UserService {
     List<User> findAllUsers();
 
     /**
-     * To find user by email
+     * To find user by fullName
      *
-     * @param email email
+     * @param fullName  fullName
      * @return User
      */
-    User findUserByEmail(String email) throws UserNotFoundException;
+    User findUserByFullName(String fullName) throws UserNotFoundException;
 
     /**
      * To create a new User
