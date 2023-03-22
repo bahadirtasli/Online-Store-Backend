@@ -7,5 +7,12 @@ package com.example.onlinestorebackend.models;
 public enum Status {
 
     ACTIVE,
-    NONACTIVE
+    NONACTIVE,
+
+    DELIVERED,
+
+    SHIPPING,
+
+    PAID,
+
 }

@@ -28,9 +28,11 @@ public class Product extends Auditable<String> implements Serializable {
     private String title;
     private String description;
 
-    //thumbnail_url?
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    //
+    private float inventory;
+    private String thumbnailUrl;
+    @OneToOne(cascade = CascadeType.MERGE)
     private Category category;
 
     private float price;
@@ -38,9 +40,7 @@ public class Product extends Auditable<String> implements Serializable {
     @Enumerated(EnumType.STRING)
     private ProductType productType;
 
-
-    //??
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @OneToMany(cascade = CascadeType.MERGE)
     List<Authority> authorities;
 
 
