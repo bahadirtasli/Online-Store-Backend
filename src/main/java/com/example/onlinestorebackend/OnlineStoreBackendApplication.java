@@ -6,7 +6,6 @@ import org.springframework.context.annotation.ComponentScan;
 
 
 @SpringBootApplication
-@ComponentScan(basePackages = "com.example.onlinestorebackend.controllers" + "com.example.onlinestorebackend.services")
 
 public class OnlineStoreBackendApplication {
 

@@ -1,8 +1,15 @@
 package com.example.onlinestorebackend.components;
 
-import com.example.onlinestorebackend.exceptions.*;
-import com.example.onlinestorebackend.models.*;
-import com.example.onlinestorebackend.services.*;
+import com.example.onlinestorebackend.exceptions.AuthorNotFoundException;
+import com.example.onlinestorebackend.exceptions.ProductNotFoundException;
+import com.example.onlinestorebackend.exceptions.UserNotFoundException;
+import com.example.onlinestorebackend.models.Author;
+import com.example.onlinestorebackend.models.Product;
+import com.example.onlinestorebackend.models.Role;
+import com.example.onlinestorebackend.models.User;
+import com.example.onlinestorebackend.services.AuthorService;
+import com.example.onlinestorebackend.services.ProductService;
+import com.example.onlinestorebackend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

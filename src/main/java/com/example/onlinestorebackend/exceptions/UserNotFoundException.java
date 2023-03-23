@@ -10,5 +10,7 @@ public class UserNotFoundException extends Exception {
     public UserNotFoundException(String email) {
         super(String.format("User not found for email : %s!" , email));
     }
-
+    public UserNotFoundException(Long id) {
+        super(String.format("User not found for email : %d!" , id));
+    }
 }

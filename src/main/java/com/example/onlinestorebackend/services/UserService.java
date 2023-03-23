@@ -10,6 +10,8 @@ import java.util.List;
  * @Date 3/22/2023
  */
 public interface UserService {
+    User findUserById(Long id) throws UserNotFoundException;
+
     /**
      * To find all users
      *

@@ -1,3 +1,4 @@
+
 package com.example.onlinestorebackend.configuration;
 
 import com.example.onlinestorebackend.services.implementations.CustomUserDetailsService;
@@ -19,6 +20,8 @@ import static com.example.onlinestorebackend.utils.Constants.Security.*;
  * @author Bahadir Tasli
  * @Date 3/22/2023
  */
+
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
