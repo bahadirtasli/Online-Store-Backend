@@ -1,12 +1,8 @@
 package com.example.onlinestorebackend.components;
 
-import com.example.onlinestorebackend.exceptions.AuthorNotFoundException;
-import com.example.onlinestorebackend.exceptions.UserNotFoundException;
-import com.example.onlinestorebackend.models.Author;
-import com.example.onlinestorebackend.models.Role;
-import com.example.onlinestorebackend.models.User;
-import com.example.onlinestorebackend.services.AuthorService;
-import com.example.onlinestorebackend.services.UserService;
+import com.example.onlinestorebackend.exceptions.*;
+import com.example.onlinestorebackend.models.*;
+import com.example.onlinestorebackend.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +12,7 @@ import static com.example.onlinestorebackend.utils.Constants.Security.AUTHORITY_
 import static com.example.onlinestorebackend.utils.Constants.Security.AUTHORITY_USER;
 
 /**
+ *
  * @author Bahadir Tasli
  * @Date 3/21/2023
  */
@@ -29,11 +26,31 @@ public class DataInit {
     @Autowired
     private AuthorService authorService;
 
+    @Autowired
+    private ProductService productService;
+
     @PostConstruct
     public void init () {
+        initProduct();
         initUser();
         initAuthor();
 
+    }
+
+
+    private void initProduct() {
+        System.out.println("Starting initializing Product..");
+        Product product = new Product();
+        product.setTitle("title");
+        product.setDescription("desc");
+        product.setInventory(2f);
+
+        try {
+            Product searchProduct = productService.findProductByTitle(product.getTitle());
+            System.out.println("Cannot pre-initialize product: " + product.getTitle());
+        } catch (ProductNotFoundException e) {
+            productService.createProduct(product);
+        }
     }
 
     private void initAuthor() {
@@ -48,6 +65,7 @@ public class DataInit {
     }
 
     private void initUser() {
+
         System.out.println("Starting initializing User..");
 
         try {

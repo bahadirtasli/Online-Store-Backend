@@ -8,8 +8,4 @@ public enum Role {
     CUSTOMER,
     GUEST
 
-
-
-
-
 }
