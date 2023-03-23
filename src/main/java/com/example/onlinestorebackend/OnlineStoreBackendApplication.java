@@ -12,6 +12,7 @@ public class OnlineStoreBackendApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(OnlineStoreBackendApplication.class, args);
+        System.out.println("It's working!");
     }
 
 }

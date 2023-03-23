@@ -3,6 +3,7 @@ package com.example.onlinestorebackend.components;
 import com.example.onlinestorebackend.exceptions.AuthorNotFoundException;
 import com.example.onlinestorebackend.exceptions.UserNotFoundException;
 import com.example.onlinestorebackend.models.Author;
+import com.example.onlinestorebackend.models.Role;
 import com.example.onlinestorebackend.models.User;
 import com.example.onlinestorebackend.services.AuthorService;
 import com.example.onlinestorebackend.services.UserService;
@@ -56,6 +57,7 @@ public class DataInit {
             user.setFullName("bahadir");
             user.setPassword("12345");
             user.setAuthor(author);
+            //user.setRole(Role.CUSTOMER);
 
             try {
                 User resultUser = userService.findUserByFullName(user.getFullName());

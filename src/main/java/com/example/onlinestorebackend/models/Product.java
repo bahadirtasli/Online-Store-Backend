@@ -28,8 +28,6 @@ public class Product extends Auditable<String> implements Serializable {
     private String title;
     private String description;
 
-
-    //
     private float inventory;
     private String thumbnailUrl;
     @OneToOne(cascade = CascadeType.MERGE)

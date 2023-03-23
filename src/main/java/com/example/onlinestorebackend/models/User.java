@@ -32,8 +32,8 @@ public class User extends Auditable<String> implements Serializable {
 
     private String logoType;
 
-    //
-    private int roleId;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @OneToOne(cascade = CascadeType.MERGE)
     private Author author;

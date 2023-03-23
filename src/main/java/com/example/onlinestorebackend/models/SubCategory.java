@@ -10,11 +10,10 @@ import java.io.Serializable;
  * @author Bahadir Tasli
  * @Date 3/23/2023
  */
-
 @Entity
 @Data
-@EqualsAndHashCode
-public class ShoppingCart extends Auditable<String> implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+public class SubCategory extends Auditable<String> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -23,6 +22,6 @@ public class ShoppingCart extends Auditable<String> implements Serializable {
     private Long id;
 
     @OneToOne(cascade = CascadeType.MERGE)
-    private User user;
+    private Category category;
 
 }
