@@ -1,4 +1,3 @@
-/*
 package com.example.onlinestorebackend.controllers;
 
 import com.example.onlinestorebackend.exceptions.UserNotFoundException;
@@ -19,7 +18,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * @Date 3/22/2023
  */
 
-/*
 @Controller
 @RequestMapping("/user")
 
@@ -58,4 +56,4 @@ public class UserController {
         }
 
     }
-} */
+}
