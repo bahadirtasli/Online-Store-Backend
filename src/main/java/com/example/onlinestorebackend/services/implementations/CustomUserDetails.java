@@ -23,8 +23,8 @@ public class CustomUserDetails implements UserDetails {
     private User user;
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getAuthor().getFirstName());
-        return Collections.singletonList(authority);
+        SimpleGrantedAuthority author = new SimpleGrantedAuthority(user.getAuthor().getFirstName());
+        return Collections.singletonList(author);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return user.getFullName();
     }
 
     @Override

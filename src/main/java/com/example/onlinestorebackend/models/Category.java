@@ -24,6 +24,6 @@ public class Category extends Auditable<String> implements Serializable {
 
     private String name;
 
-    //
+    private boolean isActive;
 
 }

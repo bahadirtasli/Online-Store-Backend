@@ -11,8 +11,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import static com.example.onlinestorebackend.utils.Constants.Security.AUTHORITY_ADMIN;
-import static com.example.onlinestorebackend.utils.Constants.Security.AUTHORITY_USER;
+
+import static com.example.onlinestorebackend.utils.Constants.Security.*;
+
 
 /**
  * @author Bahadir Tasli
@@ -50,7 +51,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         String role = "ROLE_";
         String admin = AUTHORITY_ADMIN.replace(role, "");
-        String teacher = AUTHORITY_USER.replace(role, "");
+        String user= AUTHORITY_USER.replace(role, "");
 
 
         httpSecurity.authorizeRequests()
@@ -58,10 +59,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/user")
                 .hasRole(admin)
-                .antMatchers("/**")
-                .hasAnyRole(admin)
-                .antMatchers("/**")
-                .hasAnyRole(teacher)
                 .and()
                 .httpBasic()
                 .and()

@@ -22,9 +22,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    /*
+
     @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder; */
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public List<User> findAllUsers() {
@@ -43,8 +43,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createUser(User user) {
-        /*user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));*/
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
-
     }
 }

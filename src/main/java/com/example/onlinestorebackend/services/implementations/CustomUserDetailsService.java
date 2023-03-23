@@ -19,6 +19,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private UserService userService;
 
+
     @Override
     public UserDetails loadUserByUsername(String fullName) throws UsernameNotFoundException {
         try {
@@ -27,6 +28,5 @@ public class CustomUserDetailsService implements UserDetailsService {
         } catch (UserNotFoundException e) {
             throw new UsernameNotFoundException(e.getLocalizedMessage());
         }
-
     }
 }

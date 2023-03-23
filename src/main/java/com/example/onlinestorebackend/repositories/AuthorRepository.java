@@ -11,6 +11,6 @@ import java.util.Optional;
  * @Date 3/22/2023
  */
 @Repository
-public interface AuthorityRepository extends JpaRepository<Author,Long> {
+public interface AuthorRepository extends JpaRepository<Author,Long> {
     Optional<Author> findByFirstName(String firstName);
 }

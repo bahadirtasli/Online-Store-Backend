@@ -8,7 +8,7 @@ public class CategoryNotFoundException extends Exception{
 
     private static final long serialVersionUID = 1L;
 
-    public CategoryNotFoundException(Long id) {
-        super(String.format("Category not found for id : %d" , id));
+    public CategoryNotFoundException(String name) {
+        super(String.format("Category not found for name : %s" , name));
     }
 }
