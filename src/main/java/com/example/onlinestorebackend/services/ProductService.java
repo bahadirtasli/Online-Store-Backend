@@ -3,11 +3,19 @@ package com.example.onlinestorebackend.services;
 import com.example.onlinestorebackend.exceptions.ProductNotFoundException;
 import com.example.onlinestorebackend.models.Product;
 
+import java.util.List;
+
 /**
  * @author Bahadir Tasli
  * @Date 3/22/2023
  */
 public interface ProductService {
+
+    /**
+     * To find all Products
+     * @return list of Products
+     */
+    List<Product> findAllProducts();
 
     /**
      * To create a new product
@@ -37,4 +45,9 @@ public interface ProductService {
      */
     void deleteProductByTitle(String title) throws ProductNotFoundException;
 
+    /**
+     * To restore Product by title
+     * @param title Title
+     */
+    void restoreProductByTitle(String title) throws ProductNotFoundException;
 }

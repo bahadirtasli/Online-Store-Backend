@@ -1,4 +1,3 @@
-
 package com.example.onlinestorebackend.configuration;
 
 import com.example.onlinestorebackend.services.implementations.CustomUserDetailsService;
