@@ -1,15 +1,8 @@
 package com.example.onlinestorebackend.components;
 
-import com.example.onlinestorebackend.exceptions.AuthorNotFoundException;
-import com.example.onlinestorebackend.exceptions.ProductNotFoundException;
-import com.example.onlinestorebackend.exceptions.UserNotFoundException;
-import com.example.onlinestorebackend.models.Author;
-import com.example.onlinestorebackend.models.Product;
-import com.example.onlinestorebackend.models.Role;
-import com.example.onlinestorebackend.models.User;
-import com.example.onlinestorebackend.services.AuthorService;
-import com.example.onlinestorebackend.services.ProductService;
-import com.example.onlinestorebackend.services.UserService;
+import com.example.onlinestorebackend.exceptions.*;
+import com.example.onlinestorebackend.models.*;
+import com.example.onlinestorebackend.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -35,21 +28,27 @@ public class DataInit {
 
     @Autowired
     private ProductService productService;
+    @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
+    private SubCategoryService subCategoryService;
 
     @PostConstruct
-    public void init () {
+    public void init() {
         initProduct();
         initUser();
         initAuthor();
-
+        initCategory();
+        initSubCategory();
     }
 
 
     private void initProduct() {
         System.out.println("Starting initializing Product..");
         Product product = new Product();
-        product.setTitle("title");
-        product.setDescription("desc");
+        product.setTitle("basketball");
+        product.setDescription("ball");
         product.setInventory(2f);
 
         try {
@@ -105,4 +104,53 @@ public class DataInit {
     }
 
 
+    private void initCategory() {
+        System.out.println("Starting initializing Category..");
+        Category category = new Category();
+        category.setName("ELECTRONICS");
+
+        try {
+            Category searchCategory = categoryService.findCategoryByName(category.getName());
+            System.out.println("Cannot pre-initialize category: " + category.getName());
+        } catch (CategoryNotFoundException e) {
+            categoryService.createCategory(category);
+        }
+    }
+
+
+    public void initSubCategory() {
+        System.out.println("Starting initializing Sub Category..");
+
+        try {
+            Category searchCategory = categoryService.findCategoryByName("ELECTRONICS");
+
+            SubCategory subCategory = new SubCategory();
+            subCategory.setName("Laptops");
+            subCategory.setCategory(searchCategory);
+
+            try {
+                SubCategory searchSubCategory = subCategoryService.findSubCategoryByName(subCategory.getName());
+                System.out.println("Cannot pre*initialize sub category: " + subCategory.getName());
+            } catch (SubCategoryNotFoundException e) {
+                subCategoryService.createSubCategory(subCategory);
+            }
+
+            SubCategory subCategory1 = new SubCategory();
+            subCategory1.setName("Smartphones");
+            subCategory1.setCategory(searchCategory);
+
+            try {
+                SubCategory searchSubCategory = subCategoryService.findSubCategoryByName(subCategory1.getName());
+                System.out.println("Cannot pre*initialize sub category: " + subCategory1.getName());
+            } catch (SubCategoryNotFoundException e) {
+                subCategoryService.createSubCategory(subCategory1);
+            }
+
+
+        } catch (CategoryNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
+

@@ -1,7 +1,9 @@
 package com.example.onlinestorebackend.controllers;
 
 import com.example.onlinestorebackend.exceptions.ProductNotFoundException;
+import com.example.onlinestorebackend.models.Category;
 import com.example.onlinestorebackend.models.Product;
+import com.example.onlinestorebackend.services.CategoryService;
 import com.example.onlinestorebackend.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
@@ -19,6 +21,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class ProductController {
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private CategoryService categoryService;
 
     @GetMapping
     public String showProductListPage(Model model, @ModelAttribute("message") String message,
@@ -63,9 +68,10 @@ public class ProductController {
 
     // To show create product form page
     @GetMapping("/create")
-    public String createProduct(@ModelAttribute("product") Product product,
+    public String createProduct(Model model,@ModelAttribute("product") Product product,@ModelAttribute("category") Category category,
                                 @ModelAttribute("message") String message,
                                 @ModelAttribute("messageType") String messageType) {
+        model.addAttribute("categories",categoryService.findAllCategories());
         return "product/create-product";
     }
 

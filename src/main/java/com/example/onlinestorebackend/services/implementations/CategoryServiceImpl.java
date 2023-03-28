@@ -1,9 +1,14 @@
 package com.example.onlinestorebackend.services.implementations;
 
 import com.example.onlinestorebackend.exceptions.CategoryNotFoundException;
+import com.example.onlinestorebackend.exceptions.SubCategoryNotFoundException;
 import com.example.onlinestorebackend.models.Category;
+import com.example.onlinestorebackend.models.SubCategory;
 import com.example.onlinestorebackend.repositories.CategoryRepository;
+import com.example.onlinestorebackend.repositories.SubCategoryRepository;
 import com.example.onlinestorebackend.services.CategoryService;
+import com.example.onlinestorebackend.services.SubCategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,10 +23,15 @@ import java.util.Optional;
 @Transactional
 public class CategoryServiceImpl implements CategoryService {
 
+    @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private SubCategoryService subCategoryService;
 
     @Override
     public void createCategory(Category category) {
+        category.setActive(true);
         categoryRepository.save(category);
     }
 
@@ -36,21 +46,71 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public Category findCategoryById(Long id) throws CategoryNotFoundException {
+        Optional<Category> optionalCategory = categoryRepository.findById(id);
+
+        if (optionalCategory.isEmpty()) {
+            throw new CategoryNotFoundException(id);
+        }
+
+        return optionalCategory.get();
+    }
+
+
+    @Override
     public List<Category> findAllCategories() {
         return categoryRepository.findAll();
     }
 
     @Override
-    public void deleteCategoryByName(String name) throws CategoryNotFoundException {
+    public void deleteCategoryByName(String name) throws CategoryNotFoundException, SubCategoryNotFoundException {
         Category category = findCategoryByName(name);
         category.setActive(false);
         categoryRepository.saveAndFlush(category);
+
+        for (SubCategory subCategory : subCategoryService.findAllSubCategoriesByCategory(category)) {
+            subCategoryService.deleteSubCategoryById(subCategory.getId());
+        }
+
     }
 
     @Override
-    public void restoreCategoryByName(String name) throws CategoryNotFoundException {
+    public void deleteCategoryById(Long id) throws CategoryNotFoundException, SubCategoryNotFoundException {
+        Category category = findCategoryById(id);
+        category.setActive(false);
+        categoryRepository.saveAndFlush(category);
+
+        for (SubCategory subCategory : subCategoryService.findAllSubCategoriesByCategory(category)) {
+            subCategoryService.deleteSubCategoryById(subCategory.getId());
+        }
+    }
+
+    @Override
+    public void restoreCategoryByName(String name) throws CategoryNotFoundException, SubCategoryNotFoundException {
         Category category = findCategoryByName(name);
         category.setActive(true);
         categoryRepository.saveAndFlush(category);
+
+        for (SubCategory subCategory : subCategoryService.findAllSubCategoriesByCategory(category)) {
+            subCategoryService.restoreSubCategoryById(subCategory.getId());
+        }
+    }
+
+    @Override
+    public void restoreCategoryById(Long id) throws CategoryNotFoundException, SubCategoryNotFoundException {
+        Category category = findCategoryById(id);
+        category.setActive(true);
+        categoryRepository.saveAndFlush(category);
+
+        for (SubCategory subCategory : subCategoryService.findAllSubCategoriesByCategory(category)) {
+            subCategoryService.restoreSubCategoryById(subCategory.getId());
+        }
+    }
+
+    @Override
+    public void updateCategory(Category category) throws CategoryNotFoundException {
+        if (findCategoryById(category.getId()) != null) {
+            categoryRepository.saveAndFlush(category);
+        }
     }
 }
