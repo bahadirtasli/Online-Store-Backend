@@ -1,5 +1,6 @@
 package com.example.onlinestorebackend.services;
 
+import com.example.onlinestorebackend.exceptions.CategoryNotFoundException;
 import com.example.onlinestorebackend.exceptions.ProductNotFoundException;
 import com.example.onlinestorebackend.models.Product;
 
@@ -22,7 +23,7 @@ public interface ProductService {
      *
      * @param product Product
      */
-    void createProduct(Product product);
+    void createProduct(Product product) throws CategoryNotFoundException;
 
     /**
      * To find a product by title

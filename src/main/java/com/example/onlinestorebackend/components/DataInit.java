@@ -35,8 +35,8 @@ public class DataInit {
     private SubCategoryService subCategoryService;
 
     @PostConstruct
-    public void init() {
-        initProduct();
+    public void init() throws CategoryNotFoundException {
+       // initProduct();
         initUser();
         initAuthor();
         initCategory();
@@ -44,7 +44,7 @@ public class DataInit {
     }
 
 
-    private void initProduct() {
+    private void initProduct() throws CategoryNotFoundException {
         System.out.println("Starting initializing Product..");
         Product product = new Product();
         product.setTitle("basketball");

@@ -1,5 +1,6 @@
 package com.example.onlinestorebackend.controllers;
 
+import com.example.onlinestorebackend.exceptions.CategoryNotFoundException;
 import com.example.onlinestorebackend.exceptions.ProductNotFoundException;
 import com.example.onlinestorebackend.models.Category;
 import com.example.onlinestorebackend.models.Product;
@@ -77,7 +78,7 @@ public class ProductController {
 
     // Called shen we press submit button in the create product form
     @PostMapping
-    public String createProduct(Product product, RedirectAttributes redirectAttributes) {
+    public String createProduct(Product product, RedirectAttributes redirectAttributes) throws CategoryNotFoundException {
         try {
             Product searchProduct = productService.findProductByTitle(product.getTitle());
             redirectAttributes.addFlashAttribute("message", String.format("Product(%s) already exists!", product.getTitle()));

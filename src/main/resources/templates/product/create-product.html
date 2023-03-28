@@ -17,15 +17,10 @@
             <span th:text="${message}"></span>
         </div>
 
-        <form action="title" th:action="@{/product/create-product}" method="post" th:object="${product}">
+        <form th:action="@{/product}" method="post" th:object="${product}">
             <div class="input-group">
                 <span class="input-group-text">Product Title</span>
                 <input type="text" aria-label="title" class="form-control" th:field="*{title}" required>
-            </div>
-            <br/>
-            <div class="input-group">
-                <span class="input-group-text">Product Id</span>
-                <input type="number" aria-label="Id" class="form-control" th:field="*{id}" required>
             </div>
             <br/>
             <div class="input-group">
@@ -39,17 +34,10 @@
             </div>
             <br/>
             <div class="form-group mb-3">
-                <select class="form-select" aria-label="categories" th:field="*{category.name}">
-                    <option th:each="category: ${categories}" th:text="${category.name.replace('_', ' ')}" th:value="${category.name}"></option>
+                <select class="form-select" aria-label="categories" th:field="*{category.id}">
+                    <option th:each="category: ${categories}" th:text="${category.name.replace('_', ' ')}" th:value="${category.id}"></option>
                 </select>
             </div>
-
-            <div class="form-group mb-3">
-                <select class="form-select" aria-label="authorities" th:field="*{authority.id}">
-                    <option th:each="authority: ${authorities}" th:text="${authority.name.replace('_', ' ')}" th:value="${authority.id}"></option>
-                </select>
-            </div>
-
             <a class="btn btn-outline-dark" href="/category" role="button">Cancel</a>
             <button type="submit" class="btn btn-primary">Create</button>
         </form>

@@ -1,8 +1,11 @@
 package com.example.onlinestorebackend.services.implementations;
 
+import com.example.onlinestorebackend.exceptions.CategoryNotFoundException;
 import com.example.onlinestorebackend.exceptions.ProductNotFoundException;
+import com.example.onlinestorebackend.models.Category;
 import com.example.onlinestorebackend.models.Product;
 import com.example.onlinestorebackend.repositories.ProductRepository;
+import com.example.onlinestorebackend.services.CategoryService;
 import com.example.onlinestorebackend.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,13 +24,19 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private CategoryService categoryService;
+
     @Override
     public List<Product> findAllProducts() {
         return productRepository.findAll();
     }
 
     @Override
-    public void createProduct(Product product) {
+    public void createProduct(Product product) throws CategoryNotFoundException {
+        Category category = categoryService.findCategoryById(product.getCategory().getId());
+        product.setCategory(category);
         product.setActive(true);
         productRepository.save(product);
     }
