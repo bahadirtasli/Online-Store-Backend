@@ -74,4 +74,12 @@ public class UserServiceImpl implements UserService {
         user.setActive(false);
         userRepository.saveAndFlush(user);
     }
+
+    @Override
+    public void restoreUserByFullName(String fullName) throws UserNotFoundException {
+        User user = findUserByFullName(fullName);
+        user.setActive(true);
+        userRepository.saveAndFlush(user);
+
+    }
 }

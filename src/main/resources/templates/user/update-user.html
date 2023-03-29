@@ -17,7 +17,7 @@
     <form action="#" th:action="@{/user/update}" method="post" th:object="${user}">
       <div class="input-group">
         <span class="input-group-text">FullName</span>
-        <input type="text" aria-label="fullName" class="form-control" th:field="*{}" required>
+        <input type="text" aria-label="fullName" class="form-control" th:field="*{fullName}" required>
       </div>
       <br/>
       <div class="input-group">
@@ -29,7 +29,7 @@
       <input id="id" th:field="*{id}" type="hidden">
       <input id="active" th:field="*{active}" type="hidden">
 
-      <a class="btn btn-outline-dark" href="/school" role="button">Cancel</a>
+      <a class="btn btn-outline-dark" href="/user" role="button">Cancel</a>
       <button type="submit" class="btn btn-primary">Update</button>
     </form>
   </div>

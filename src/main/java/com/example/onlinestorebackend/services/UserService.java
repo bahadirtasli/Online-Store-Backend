@@ -40,11 +40,17 @@ public interface UserService {
      * To update an existing User
      * @param user User
      */
-    void updateUser(User user) throws ProductNotFoundException, UserNotFoundException;
+    void updateUser(User user) throws UserNotFoundException;
 
     /**
      * To delete a User by fullName
      * @param fullName FullName
      */
-    void deleteUserByFullName(String fullName) throws ProductNotFoundException, UserNotFoundException;
+    void deleteUserByFullName(String fullName) throws UserNotFoundException;
+
+    /**
+     * To restore a User by fullName
+     * @param fullName FullName
+     */
+    void restoreUserByFullName(String fullName) throws UserNotFoundException;
 }

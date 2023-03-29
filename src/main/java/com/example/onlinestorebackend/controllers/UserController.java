@@ -56,6 +56,30 @@ public class UserController {
         }
 
     }
+
+    @GetMapping("/delete/{fullName}")
+    public String deleteUser(@PathVariable String fullName,RedirectAttributes redirectAttributes){
+        try {
+            userService.deleteUserByFullName(fullName);
+            redirectAttributes.addFlashAttribute("message", String.format("Product(title=%s) deleted successfully!",fullName));
+            redirectAttributes.addFlashAttribute("messageType", "success");
+            return "redirect:/user";
+        } catch (UserNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @GetMapping("/restore/{fullName}")
+    public String restoreUser(@PathVariable String fullName, RedirectAttributes redirectAttributes) {
+        try {
+            userService.restoreUserByFullName(fullName);
+            redirectAttributes.addFlashAttribute("message", String.format("User #%d restored successfully!", fullName));
+            redirectAttributes.addFlashAttribute("messageType", "success");
+            return "redirect:/user";
+        } catch (UserNotFoundException e) {
+            return handleException(redirectAttributes, e);
+        }
+    }
     @GetMapping("/update/{fullName}")
     public String showUpdateUserPage(@PathVariable String fullName,
                                         RedirectAttributes redirectAttributes,
@@ -78,7 +102,7 @@ public class UserController {
             redirectAttributes.addFlashAttribute("message",String.format("User(%s) has been created succesfully!", user.getFullName()));
             redirectAttributes.addFlashAttribute("messageType","success");
             return "redirect:/user";
-        } catch (UserNotFoundException | ProductNotFoundException e) {
+        } catch (UserNotFoundException e) {
             return handleException(redirectAttributes,e);
         }
     }
