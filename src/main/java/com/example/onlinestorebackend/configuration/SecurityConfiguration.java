@@ -52,8 +52,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         String role = "ROLE_";
-        String admin = AUTHORITY_ADMIN.replace(role, "");
-        String user= AUTHORITY_USER.replace(role, "");
+        String admin = AUTHOR_ADMIN.replace(role, "");
+        String user= AUTHOR_USER.replace(role, "");
 
 
         httpSecurity.authorizeRequests()

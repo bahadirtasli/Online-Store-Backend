@@ -27,10 +27,10 @@
         <br/>
         <table class="table table-dark" th:if="${products.size() > 0}">
             <thead>
-            <th scope="col">#</th>
+            <th scope="col">Click for Details</th>
             <th scope="col">Title</th>
-            <th scope="col">Description</th>
             <th scope="col">In Stock</th>
+            <th scope="col">Price</th>
             <th scope="col">Actions</th>
 
             </thead>
@@ -42,8 +42,8 @@
                     </a>
                 </th>
                 <td th:text="${product.title}"></td>
-                <td th:text="${product.description}"></td>
                 <td th:text="${product.inventory}"></td>
+                <td th:text="${product.price}"></td>
                 <td>
                     <a class="btn btn-warning" role="button" th:href="@{/product/update/{title}(title=${product.title})}" th:if="${product.isActive()}">
                         <i class="bi bi-pen"></i>
@@ -61,7 +61,6 @@
             </tbody>
         </table>
     </div>
-
 
 </div>
 

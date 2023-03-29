@@ -8,8 +8,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
-import static com.example.onlinestorebackend.utils.Constants.Security.AUTHORITY_ADMIN;
-import static com.example.onlinestorebackend.utils.Constants.Security.AUTHORITY_USER;
+import static com.example.onlinestorebackend.utils.Constants.Security.*;
 
 /**
  *
@@ -35,39 +34,70 @@ public class DataInit {
     private SubCategoryService subCategoryService;
 
     @PostConstruct
-    public void init() throws CategoryNotFoundException {
-       // initProduct();
+    public void init(){
+        initProduct();
         initUser();
         initAuthor();
         initCategory();
         initSubCategory();
     }
 
+    private void initCategory() {
+        System.out.println("Starting initializing Category..");
+        Category category = new Category();
+        category.setName("Sports");
 
-    private void initProduct() throws CategoryNotFoundException {
+
+        try {
+            Category searchCategory = categoryService.findCategoryByName(category.getName());
+            System.out.println("Cannot pre-initialize category: " + category.getName());
+        } catch (CategoryNotFoundException e) {
+            categoryService.createCategory(category);
+        }
+    }
+
+    private void initProduct() {
         System.out.println("Starting initializing Product..");
+
         Product product = new Product();
         product.setTitle("basketball");
         product.setDescription("ball");
         product.setInventory(2f);
 
         try {
-            Product searchProduct = productService.findProductByTitle(product.getTitle());
-            System.out.println("Cannot pre-initialize product: " + product.getTitle());
-        } catch (ProductNotFoundException e) {
-            productService.createProduct(product);
+            Category category = categoryService.findCategoryByName("Sports");
+
+            Product product1 = new Product();
+            product.setTitle("basketball2");
+            product.setDescription("ball2");
+            product.setInventory(4f);
+
+            try {
+                Product searchProduct = productService.findProductByTitle(product.getTitle());
+                System.out.println("Cannot pre-initialize product: " + product.getTitle());
+            } catch (ProductNotFoundException e) {
+                productService.createProduct(product);;
+            }
+        } catch (CategoryNotFoundException e) {
+            System.out.println("Can not pre-initialize category! Reason : " + e.getLocalizedMessage());
         }
     }
 
+
     private void initAuthor() {
         System.out.println("Starting initializing Author..");
+
         Author authorAdmin = new Author();
-        authorAdmin.setFirstName(AUTHORITY_ADMIN);
+        authorAdmin.setName(AUTHOR_ADMIN);
         createAuthor(authorAdmin);
 
         Author authorUser = new Author();
-        authorUser.setFirstName(AUTHORITY_USER);
+        authorUser.setName(AUTHOR_USER);
         createAuthor(authorUser);
+
+        Author authorGuest = new Author();
+        authorGuest.setName(AUTHOR_GUEST);
+        createAuthor(authorGuest);
     }
 
     private void initUser() {
@@ -75,10 +105,10 @@ public class DataInit {
         System.out.println("Starting initializing User..");
 
         try {
-            Author author = authorService.findAuthorByFirstName(AUTHORITY_USER);
+            Author author = authorService.findAuthorByName(AUTHOR_ADMIN);
 
             User user = new User();
-            user.setFullName("bahadir");
+            user.setFullName("admin@finalproject.com");
             user.setPassword("12345");
             user.setAuthor(author);
             //user.setRole(Role.CUSTOMER);
@@ -96,33 +126,22 @@ public class DataInit {
 
     private void createAuthor(Author author) {
         try {
-            Author resultAuthor = authorService.findAuthorByFirstName(author.getFirstName());
-            System.out.println("Can not pre-initialize author : " + author.getFirstName());
+            Author resultAuthor = authorService.findAuthorByName(author.getName());
+            System.out.println("Can not pre-initialize author : " + author.getName());
         } catch (AuthorNotFoundException e){
             authorService.createAuthor(author);
         }
     }
 
 
-    private void initCategory() {
-        System.out.println("Starting initializing Category..");
-        Category category = new Category();
-        category.setName("ELECTRONICS");
 
-        try {
-            Category searchCategory = categoryService.findCategoryByName(category.getName());
-            System.out.println("Cannot pre-initialize category: " + category.getName());
-        } catch (CategoryNotFoundException e) {
-            categoryService.createCategory(category);
-        }
-    }
 
 
     public void initSubCategory() {
         System.out.println("Starting initializing Sub Category..");
 
         try {
-            Category searchCategory = categoryService.findCategoryByName("ELECTRONICS");
+            Category searchCategory = categoryService.findCategoryByName("Sports");
 
             SubCategory subCategory = new SubCategory();
             subCategory.setName("Laptops");

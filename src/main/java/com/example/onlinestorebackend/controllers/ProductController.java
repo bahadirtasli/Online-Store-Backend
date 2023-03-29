@@ -78,14 +78,18 @@ public class ProductController {
 
     // Called shen we press submit button in the create product form
     @PostMapping
-    public String createProduct(Product product, RedirectAttributes redirectAttributes) throws CategoryNotFoundException {
+    public String createProduct(Product product, RedirectAttributes redirectAttributes) {
         try {
             Product searchProduct = productService.findProductByTitle(product.getTitle());
             redirectAttributes.addFlashAttribute("message", String.format("Product(%s) already exists!", product.getTitle()));
             redirectAttributes.addFlashAttribute("messageType", "error");
             return "redirect:/product/create-product";
         } catch (ProductNotFoundException e) {
-            productService.createProduct(product);
+            try {
+                productService.createProduct(product);
+            } catch (CategoryNotFoundException ex) {
+                return handleException(redirectAttributes,ex);
+            }
             redirectAttributes.addFlashAttribute("message", String.format("Product(%s) has been created successfully!", product.getTitle()));
             redirectAttributes.addFlashAttribute("messageType", "success");
             return "redirect:/product";

@@ -1,6 +1,8 @@
 package com.example.onlinestorebackend.services.implementations;
 
+import com.example.onlinestorebackend.exceptions.ProductNotFoundException;
 import com.example.onlinestorebackend.exceptions.UserNotFoundException;
+import com.example.onlinestorebackend.models.Product;
 import com.example.onlinestorebackend.models.User;
 import com.example.onlinestorebackend.repositories.UserRepository;
 import com.example.onlinestorebackend.services.UserService;
@@ -57,5 +59,19 @@ public class UserServiceImpl implements UserService {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setActive(true);
         userRepository.save(user);
+    }
+
+    @Override
+    public void updateUser(User user) throws UserNotFoundException {
+        if (findUserByFullName(user.getFullName()) !=null) {
+            userRepository.saveAndFlush(user);
+        }
+    }
+
+    @Override
+    public void deleteUserByFullName(String fullName) throws UserNotFoundException {
+        User user = findUserByFullName(fullName);
+        user.setActive(false);
+        userRepository.saveAndFlush(user);
     }
 }

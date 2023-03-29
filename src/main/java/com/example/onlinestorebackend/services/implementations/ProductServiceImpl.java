@@ -34,8 +34,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void createProduct(Product product) throws CategoryNotFoundException {
-        Category category = categoryService.findCategoryById(product.getCategory().getId());
+    public void createProduct(Product product) {
+        Category category = null;
+        try {
+            category = categoryService.findCategoryById(product.getCategory().getId());
+        } catch (CategoryNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         product.setCategory(category);
         product.setActive(true);
         productRepository.save(product);

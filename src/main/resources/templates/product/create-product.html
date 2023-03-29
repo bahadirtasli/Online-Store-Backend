@@ -24,6 +24,10 @@
             </div>
             <br/>
             <div class="input-group">
+                <span class="input-group-text">Description</span>
+                <input type="text" aria-label="description" class="form-control" th:field="*{description}" required>
+            </div>
+            <div class="input-group">
                 <span class="input-group-text">Inventory</span>
                 <input type="number" aria-label="Inventory" class="form-control" th:field="*{inventory}" required>
             </div>
@@ -33,6 +37,7 @@
                 <input type="number" aria-label="Price" class="form-control" th:field="*{price}" required>
             </div>
             <br/>
+
             <div class="form-group mb-3">
                 <select class="form-select" aria-label="categories" th:field="*{category.id}">
                     <option th:each="category: ${categories}" th:text="${category.name.replace('_', ' ')}" th:value="${category.id}"></option>

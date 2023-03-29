@@ -1,6 +1,8 @@
 package com.example.onlinestorebackend.services;
 
+import com.example.onlinestorebackend.exceptions.ProductNotFoundException;
 import com.example.onlinestorebackend.exceptions.UserNotFoundException;
+import com.example.onlinestorebackend.models.Product;
 import com.example.onlinestorebackend.models.User;
 
 import java.util.List;
@@ -33,4 +35,16 @@ public interface UserService {
      * @param user User
      */
     void createUser(User user);
+
+    /**
+     * To update an existing User
+     * @param user User
+     */
+    void updateUser(User user) throws ProductNotFoundException, UserNotFoundException;
+
+    /**
+     * To delete a User by fullName
+     * @param fullName FullName
+     */
+    void deleteUserByFullName(String fullName) throws ProductNotFoundException, UserNotFoundException;
 }
