@@ -34,7 +34,7 @@ public class Order  extends Auditable<String> implements Serializable {
     private LocalDateTime dateOfOrder;
 
     @OneToMany(cascade = CascadeType.ALL)
-    List<OrderLine> orderLines;
+    List<Cart> carts;
 
 
     //Check later

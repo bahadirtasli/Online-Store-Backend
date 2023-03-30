@@ -19,6 +19,8 @@ import static com.example.onlinestorebackend.utils.Constants.Security.*;
 @Component
 public class DataInit {
 
+    //@Autowired
+  //  private CartService cartService;
     @Autowired
     private UserService userService;
 
@@ -40,13 +42,37 @@ public class DataInit {
         initAuthor();
         initCategory();
         initSubCategory();
+       // initCart();
     }
 
+    /* private void initCart() {
+        System.out.println("Starting initializing Cart..");
+
+        Cart cart = new Cart();
+        cart.setQtyOfProducts(1);
+        cart.setProductPrice(5);
+
+        try {
+            Product product = productService.findProductByTitle("basketball");
+
+            Cart cart1 = new Cart();
+            cart1.setQtyOfProducts(5);
+            cart1.setProductPrice(55);
+
+            try {
+                Cart searchCart = cartService.findCartById(cart.getId());
+                System.out.println("Cannot pre-initialize cart: " + cart.getId());
+            } catch (CartNotFoundException e) {
+                cartService.createCart(cart);;
+            }
+        } catch (ProductNotFoundException e) {
+            System.out.println("Can not pre-initialize category! Reason : " + e.getLocalizedMessage());
+        }
+    } */
     private void initCategory() {
         System.out.println("Starting initializing Category..");
         Category category = new Category();
         category.setName("Sports");
-
 
         try {
             Category searchCategory = categoryService.findCategoryByName(category.getName());
@@ -59,17 +85,12 @@ public class DataInit {
     private void initProduct() {
         System.out.println("Starting initializing Product..");
 
-        Product product = new Product();
-        product.setTitle("basketball");
-        product.setDescription("ball");
-        product.setInventory(2f);
-
         try {
-            Category category = categoryService.findCategoryByName("Sports");
-
-            Product product1 = new Product();
-            product.setTitle("basketball2");
-            product.setDescription("ball2");
+            Category searchCategory = categoryService.findCategoryByName("Sports");
+            Product product = new Product();
+            product.setTitle("basketball");
+            product.setCategory(searchCategory);
+            product.setDescription("ball");
             product.setInventory(4f);
 
             try {

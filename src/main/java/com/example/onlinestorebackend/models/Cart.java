@@ -9,18 +9,25 @@ import java.util.List;
 
 /**
  * @author Bahadir Tasli
- * @Date 3/21/2023
+ * @Date 3/23/2023
  */
+
 @Entity
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class OrderLine extends Auditable<String> implements Serializable {
+@EqualsAndHashCode
+public class Cart extends Auditable<String> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
+
+    @OneToOne(cascade = CascadeType.MERGE)
+    private User user;
+
+    @OneToOne(cascade = CascadeType.MERGE)
+    private Product product;
 
     @OneToMany(cascade = CascadeType.MERGE)
     private List<Product> products;
@@ -28,5 +35,7 @@ public class OrderLine extends Auditable<String> implements Serializable {
     private float qtyOfProducts;
 
     private float productPrice;
+
+    private boolean isActive;
 
 }
