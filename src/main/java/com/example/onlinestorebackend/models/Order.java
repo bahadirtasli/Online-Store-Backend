@@ -23,23 +23,13 @@ public class Order  extends Auditable<String> implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String username;
-
-    private float totalCost;
 
     private String deliveryAddress;
 
-    private String userAddress;
 
-    private LocalDateTime dateOfOrder;
+    @OneToOne(cascade = CascadeType.MERGE)
+    private OrderDetails orderDetails;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    List<Cart> carts;
-
-
-    //Check later
-    @OneToMany(cascade = CascadeType.MERGE)
-    List<User> users;
 
     @Enumerated(EnumType.STRING)
     private Status status;

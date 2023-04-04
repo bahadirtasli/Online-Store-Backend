@@ -54,7 +54,7 @@ public class CartController {
     }
 
     @GetMapping("/restore/{id}")
-    public String restoreOrderLine(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    public String restoreCart(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             cartService.restoreCartById(id);
             redirectAttributes.addFlashAttribute("message", String.format("Cart %d deleted successfully!", id));
@@ -67,7 +67,7 @@ public class CartController {
 
     // To show create product form page
     @GetMapping("/create")
-    public String createOrderLine(Model model, @ModelAttribute("cart")Cart cart,@ModelAttribute("product") Product product,
+    public String createCart(Model model, @ModelAttribute("cart")Cart cart,@ModelAttribute("product") Product product,
                                   @ModelAttribute("message") String message,
                                   @ModelAttribute("messageType") String messageType) {
         model.addAttribute("products",productService.findAllProducts());

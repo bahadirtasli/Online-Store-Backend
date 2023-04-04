@@ -11,10 +11,10 @@
 <div class="container-fluid">
   <div th:replace="fragments/navbar"></div>
   <div class="container">
-    <h1 class="fw-bold">Product Info</h1>
+    <h1 class="fw-bold">Product Details</h1>
     <div class="form-floating mb-3">
-      <input type="text" readonly class="form-control-plaintext" id="title" th:value="${product.title}">
-      <label for="title">Title</label>
+      <input type="text" readonly class="form-control-plaintext" id="category" th:value="${product.category.getName()}">
+      <label for="category">Category</label>
     </div>
     <div class="form-floating mb-3">
       <input type="text" readonly class="form-control-plaintext" id="desc" th:value="${product.description}">
@@ -25,6 +25,10 @@
       <label for="inventory">In stock</label>
     </div>
     <div class="form-floating mb-3">
+      <input type="text" readonly class="form-control-plaintext" id="price" th:value="${product.price}">
+      <label for="price">Price</label>
+    </div>
+    <div class="form-floating mb-3">
       <input type="url" readonly class="form-control-plaintext" id="thumbnailurl" th:value="${product.thumbnailUrl}">
       <label for="thumbnailurl">ProductImage</label>
     </div>
@@ -33,6 +37,8 @@
       <input type="text" readonly class="form-control-plaintext" id="active" th:value="${product.active} ? 'Yes' : 'No'">
       <label for="active">Active</label>
     </div>
+    <p> get location</p>
+    <button onclick="getLocation()">try it</button>
     <a class="btn btn-outline-primary" href="/product" role="button">Back</a>
   </div>
 

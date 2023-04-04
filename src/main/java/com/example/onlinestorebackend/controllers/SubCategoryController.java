@@ -105,6 +105,6 @@ public class SubCategoryController {
     private String handleException(RedirectAttributes redirectAttributes, Exception e) {
         redirectAttributes.addFlashAttribute("message", e.getLocalizedMessage());
         redirectAttributes.addFlashAttribute("messageType", "error");
-        return "redirect:/school";
+        return "redirect:/subcategory";
     }
 }

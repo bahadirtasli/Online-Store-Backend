@@ -69,6 +69,4 @@ public interface SubCategoryService {
      * @return Category
      */
     SubCategory findSubCategoryByName(String name) throws SubCategoryNotFoundException;
-
-
 }

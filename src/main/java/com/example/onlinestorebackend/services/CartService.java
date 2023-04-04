@@ -2,6 +2,7 @@ package com.example.onlinestorebackend.services;
 
 import com.example.onlinestorebackend.exceptions.CartNotFoundException;
 import com.example.onlinestorebackend.models.Cart;
+import com.example.onlinestorebackend.models.Product;
 
 import java.util.List;
 
@@ -52,5 +53,12 @@ public interface CartService {
      * @param id Id
      */
     void restoreCartById(Long id) throws CartNotFoundException;
+
+    void addProduct(Product product);
+
+    void removeProduct(Product product);
+
+    List<Product> getProductsInCart();
+
 
 }

@@ -2,7 +2,9 @@ package com.example.onlinestorebackend.services.implementations;
 
 import com.example.onlinestorebackend.exceptions.CartNotFoundException;
 import com.example.onlinestorebackend.models.Cart;
+import com.example.onlinestorebackend.models.Product;
 import com.example.onlinestorebackend.repositories.CartRepository;
+import com.example.onlinestorebackend.repositories.ProductRepository;
 import com.example.onlinestorebackend.services.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,8 @@ import java.util.Optional;
 @Transactional
 public class CartServiceImpl implements CartService {
 
+    @Autowired
+    private ProductRepository productRepository;
     @Autowired
     private CartRepository cartRepository;
 
@@ -63,5 +67,21 @@ public class CartServiceImpl implements CartService {
         Cart cart = findCartById(id);
         cart.setActive(true);
         cartRepository.saveAndFlush(cart);
+    }
+
+    @Override
+    public void addProduct(Product product) {
+
+
+    }
+
+    @Override
+    public void removeProduct(Product product) {
+
+    }
+
+    @Override
+    public List<Product> getProductsInCart() {
+        return null;
     }
 }

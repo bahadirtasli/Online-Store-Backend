@@ -9,6 +9,8 @@ public class ProductNotFoundException extends Exception{
 
     public ProductNotFoundException(String title) {
         super(String.format("Product not found for title : %s" , title));
+    }    public ProductNotFoundException(Long id) {
+        super(String.format("Product not found for id : %d" , id));
     }
 
 }

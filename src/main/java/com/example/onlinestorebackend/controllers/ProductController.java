@@ -33,10 +33,10 @@ public class ProductController {
         return "product/list-product";
     }
 
-    @GetMapping("/{title}")
-    public String showProductViewPage(@PathVariable String title, Model model, RedirectAttributes redirectAttributes) {
+    @GetMapping("/{id}")
+    public String showProductViewPage(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
         try {
-            model.addAttribute("product", productService.findProductByTitle(title));
+            model.addAttribute("product", productService.findProductById(id));
             return "product/view-product";
         } catch (ProductNotFoundException e) {
             return handleException(redirectAttributes, e);
@@ -47,7 +47,7 @@ public class ProductController {
     public String deleteProduct(@PathVariable String title, RedirectAttributes redirectAttributes) {
         try {
             productService.deleteProductByTitle(title);
-            redirectAttributes.addFlashAttribute("message", String.format("Product(title=%s) deleted successfully!", title));
+            redirectAttributes.addFlashAttribute("message", String.format("Product named: %s is now de-active!", title));
             redirectAttributes.addFlashAttribute("messageType", "success");
             return "redirect:/product";
         } catch (ProductNotFoundException e) {
@@ -67,6 +67,7 @@ public class ProductController {
         }
     }
 
+
     // To show create product form page
     @GetMapping("/create")
     public String createProduct(Model model,@ModelAttribute("product") Product product,@ModelAttribute("category") Category category,
@@ -76,7 +77,7 @@ public class ProductController {
         return "product/create-product";
     }
 
-    // Called shen we press submit button in the create product form
+    // Called when we press submit button in the create product form
     @PostMapping
     public String createProduct(Product product, RedirectAttributes redirectAttributes) {
         try {
@@ -95,27 +96,27 @@ public class ProductController {
             return "redirect:/product";
         }
     }
-
     @GetMapping("/update/{title}")
     public String showUpdateProductPage(@PathVariable String title,
                                         RedirectAttributes redirectAttributes,
                                         @RequestParam(value = "product", required = false) Product product,
-                                        Model model) {
+                                        Model model,@RequestParam(value = "category", required = false)Category category) {
         if (product == null) {
             try {
                 model.addAttribute("product", productService.findProductByTitle(title));
+                model.addAttribute("categories",categoryService.findAllCategories());
             } catch (ProductNotFoundException e) {
                 return handleException(redirectAttributes, e);
             }
         }
         return "product/update-product";
     }
-
     @PostMapping("/update")
     public String updateProduct(Product product, RedirectAttributes redirectAttributes) {
         try {
+
             productService.updateProduct(product);
-            redirectAttributes.addFlashAttribute("message", String.format("Product(%s) has been created successfully!", product.getTitle()));
+            redirectAttributes.addFlashAttribute("message", String.format("Product(%s) has been updated successfully!", product.getTitle()));
             redirectAttributes.addFlashAttribute("messageType", "success");
             return "redirect:/product";
         } catch (ProductNotFoundException e) {
@@ -124,10 +125,14 @@ public class ProductController {
     }
 
 
+
+
+
+
     // PRIVATE METHODS //
     private String handleException(RedirectAttributes redirectAttributes, Exception e) {
         redirectAttributes.addFlashAttribute("message", e.getLocalizedMessage());
         redirectAttributes.addFlashAttribute("messageType", "error");
-        return "redirect:/school";
+        return "redirect:/product";
     }
 }

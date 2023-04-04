@@ -33,6 +33,13 @@ public interface ProductService {
      */
     Product findProductByTitle(String title) throws ProductNotFoundException;
 
+    /**
+     * to find a product by ID
+     *
+     * @param id Product ID
+     * @return Product
+     */
+    Product findProductById(Long id) throws ProductNotFoundException;
 
     /**
      * To update an existing Product
@@ -51,4 +58,6 @@ public interface ProductService {
      * @param title Title
      */
     void restoreProductByTitle(String title) throws ProductNotFoundException;
+
+
 }

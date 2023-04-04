@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.Id;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +23,7 @@ import java.util.Optional;
 @Transactional
 public class ProductServiceImpl implements ProductService {
 
+
     @Autowired
     private ProductRepository productRepository;
 
@@ -32,6 +34,8 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> findAllProducts() {
         return productRepository.findAll();
     }
+
+
 
     @Override
     public void createProduct(Product product) {
@@ -52,6 +56,15 @@ public class ProductServiceImpl implements ProductService {
 
         if (productOptional.isEmpty()) {
             throw new ProductNotFoundException(title);
+        }
+        return productOptional.get();
+    }
+
+    @Override
+    public Product findProductById(Long id) throws ProductNotFoundException {
+        Optional<Product> productOptional = productRepository.findById(id);
+        if (productOptional.isEmpty()) {
+            throw new ProductNotFoundException(id);
         }
         return productOptional.get();
     }
