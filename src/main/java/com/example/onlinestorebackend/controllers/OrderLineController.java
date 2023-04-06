@@ -2,15 +2,20 @@ package com.example.onlinestorebackend.controllers;
 
 import com.example.onlinestorebackend.exceptions.OrderLineNotFoundException;
 import com.example.onlinestorebackend.exceptions.ProductNotFoundException;
+import com.example.onlinestorebackend.exceptions.UserNotFoundException;
 import com.example.onlinestorebackend.models.OrderLine;
 import com.example.onlinestorebackend.models.Product;
+import com.example.onlinestorebackend.models.User;
 import com.example.onlinestorebackend.services.OrderLineService;
 import com.example.onlinestorebackend.services.ProductService;
+import com.example.onlinestorebackend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.security.Principal;
 
 /**
  * @author Bahadir Tasli
@@ -24,17 +29,20 @@ public class OrderLineController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping
     public String showOrderLinePage(Model model, @ModelAttribute("message") String message,
                                     @ModelAttribute("messageType") String messageType) {
-        model.addAttribute("orderlines", orderLineService.findAllOrderLines());
+        model.addAttribute("orderLines", orderLineService.findAllOrderLines());
         return "orderLine/list-orderline";
     }
 
     @GetMapping("/{id}")
     public String showOrderLineViewPage(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
         try {
-            model.addAttribute("orderline", orderLineService.findOrderLineById(id));
+            model.addAttribute("orderLine", orderLineService.findOrderLineById(id));
             return "orderLine/view-orderline";
         } catch (OrderLineNotFoundException e) {
             return handleException(redirectAttributes, e);
@@ -67,15 +75,18 @@ public class OrderLineController {
 
 
     @GetMapping("/create-by-product/{productId}")
-    public String createOrderLineByProduct(@PathVariable Long productId, RedirectAttributes redirectAttributes) {
+    public String createOrderLineByProduct(@PathVariable Long productId, RedirectAttributes redirectAttributes, Principal principal) {
         try {
             Product product = productService.findProductById(productId);
-            orderLineService.createOrderLineByProduct(product);
+            User user = userService.findUserByFullName(principal.getName());
+            orderLineService.createOrderLineByProduct(product, user);
             redirectAttributes.addFlashAttribute("message", "Product added to the cart!");
             redirectAttributes.addFlashAttribute("messageType", "success");
             return "redirect:/product";
         } catch (ProductNotFoundException e) {
             return handleException(redirectAttributes, e);
+        } catch (UserNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -96,7 +107,7 @@ public class OrderLineController {
             OrderLine searchOrderLine = orderLineService.findOrderLineById(orderLine.getId());
             redirectAttributes.addFlashAttribute("message", String.format("Product %d already exists!", orderLine.getId()));
             redirectAttributes.addFlashAttribute("messageType", "error");
-            return "redirect:/orderLine/create-orderline";
+            return "redirect:/orderLine/create-orderLine";
         } catch (OrderLineNotFoundException e) {
             orderLineService.createOrderLine(orderLine);
             redirectAttributes.addFlashAttribute("message", String.format("Product %d has been created successfully!", orderLine.getId()));

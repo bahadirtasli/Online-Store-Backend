@@ -2,11 +2,14 @@ package com.example.onlinestorebackend.services.implementations;
 
 import com.example.onlinestorebackend.exceptions.CategoryNotFoundException;
 import com.example.onlinestorebackend.exceptions.ProductNotFoundException;
+import com.example.onlinestorebackend.exceptions.SubCategoryNotFoundException;
 import com.example.onlinestorebackend.models.Category;
 import com.example.onlinestorebackend.models.Product;
+import com.example.onlinestorebackend.models.SubCategory;
 import com.example.onlinestorebackend.repositories.ProductRepository;
 import com.example.onlinestorebackend.services.CategoryService;
 import com.example.onlinestorebackend.services.ProductService;
+import com.example.onlinestorebackend.services.SubCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +31,8 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
 
     @Autowired
-    private CategoryService categoryService;
+    private SubCategoryService subCategoryService;
+
 
     @Override
     public List<Product> findAllProducts() {
@@ -39,13 +43,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void createProduct(Product product) {
-        Category category = null;
+        SubCategory subCategory = null;
         try {
-            category = categoryService.findCategoryById(product.getCategory().getId());
-        } catch (CategoryNotFoundException e) {
+            subCategory = subCategoryService.findSubCategoryById(product.getSubCategory().getId());
+        } catch (SubCategoryNotFoundException e) {
             throw new RuntimeException(e);
         }
-        product.setCategory(category);
+        product.setSubCategory(subCategory);
         product.setActive(true);
         productRepository.save(product);
     }

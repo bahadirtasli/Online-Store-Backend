@@ -35,7 +35,7 @@
       <tbody>
       <tr th:each="subcategory: ${subcategories}">
         <th scope="row">
-          <a href="#" class="text-decoration-none" th:href="@{/category/subcategory/{id}(id=${subcategory.id})}">
+          <a href="#" class="text-decoration-none" th:href="@{/subcategory/{id}(id=${subcategory.id})}">
             <span th:text="${subcategory.id}"></span>
           </a>
         </th>

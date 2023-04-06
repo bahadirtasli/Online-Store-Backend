@@ -18,22 +18,14 @@
         </div>
 
         <form th:action="@{/cart/create}" method="post" th:object="${cart}">
-
-            <!--We should add search option instead of select !-->
-            <div class="form-group mb-3">
-                <select class="form-select" aria-label="products" th:field="*{product.id}">
-                    <option th:each="product: ${products}" th:text="${product.title.replace('_', ' ')}" th:value="${product.id}"></option>
-                </select>
+            <div class="input-group">
+                <span class="input-group-text">Order Line</span>
+                <input type="text" aria-label="OrderLine" class="form-control" th:field="*{orderLine}" required>
             </div>
             <br/>
             <div class="input-group">
-                <span class="input-group-text">Quantity of Product</span>
-                <input type="text" aria-label="qtyOfProducts" class="form-control" th:field="*{qtyOfProducts}" required>
-            </div>
-            <br/>
-            <div class="input-group">
-                <span class="input-group-text">Product Price</span>
-                <input type="number" aria-label="productPrice" class="form-control" th:field="*{productPrice}" required>
+                <span class="input-group-text">Total Cost</span>
+                <input type="text" aria-label="totalCost" class="form-control" th:field="*{totalCost}" required>
             </div>
             <a class="btn btn-outline-dark" href="/category" role="button">Cancel</a>
             <button type="submit" class="btn btn-primary">Create</button>

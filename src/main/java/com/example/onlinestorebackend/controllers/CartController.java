@@ -1,10 +1,13 @@
 package com.example.onlinestorebackend.controllers;
 
 import com.example.onlinestorebackend.exceptions.CartNotFoundException;
+import com.example.onlinestorebackend.exceptions.OrderLineNotFoundException;
 import com.example.onlinestorebackend.exceptions.ProductNotFoundException;
 import com.example.onlinestorebackend.models.Cart;
+import com.example.onlinestorebackend.models.OrderLine;
 import com.example.onlinestorebackend.models.Product;
 import com.example.onlinestorebackend.services.CartService;
+import com.example.onlinestorebackend.services.OrderLineService;
 import com.example.onlinestorebackend.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +26,8 @@ public class CartController {
     private ProductService productService;
     @Autowired
     private CartService cartService;
+    @Autowired
+    private OrderLineService orderLineService;
 
     @GetMapping
     public String showCartPage(Model model, @ModelAttribute("message") String message,
@@ -113,6 +118,20 @@ public class CartController {
             redirectAttributes.addFlashAttribute("messageType", "success");
             return "redirect:/cart";
         } catch (CartNotFoundException e) {
+            return handleException(redirectAttributes, e);
+        }
+    }
+
+    @GetMapping("/create-by-orderLine/{orderLineId}")
+    public String createOrderLineByProduct(@PathVariable Long orderLineId, RedirectAttributes redirectAttributes) {
+        try {
+            OrderLine orderLine = orderLineService.findOrderLineById(orderLineId);
+            cartService.createCartByOrderLine(orderLine);
+
+            redirectAttributes.addFlashAttribute("message", "Product added to the cart!");
+            redirectAttributes.addFlashAttribute("messageType", "success");
+            return "redirect:/orderLine";
+        } catch (OrderLineNotFoundException e) {
             return handleException(redirectAttributes, e);
         }
     }

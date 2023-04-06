@@ -1,7 +1,9 @@
 package com.example.onlinestorebackend.services;
 
 import com.example.onlinestorebackend.exceptions.CartNotFoundException;
+import com.example.onlinestorebackend.exceptions.OrderLineNotFoundException;
 import com.example.onlinestorebackend.models.Cart;
+import com.example.onlinestorebackend.models.OrderLine;
 import com.example.onlinestorebackend.models.Product;
 
 import java.util.List;
@@ -13,19 +15,53 @@ import java.util.List;
 public interface CartService {
 
     /**
-     * To find all carts
+     * To add OrderLine to the Cart
      *
-     * @return list of Cart
+     * @param orderLine OrderLine
      */
-    List<Cart> findAllCarts();
+    void addOrderLineToCart(OrderLine orderLine) throws OrderLineNotFoundException;
 
+    /**
+     * To remove OrderLine from the Cart
+     *
+     * @param orderLine OrderLine
+     */
+    void removeOrderLineFromCart(OrderLine orderLine);
+
+    /**
+     * To add orderLine to Cart
+     *
+     * @param orderLine OrderLine
+     */
+    void createCartByOrderLine(OrderLine orderLine);
+
+    /**
+     * To find active Cart by OrderLine
+     * @param orderLine orderLine
+     * @return OrderLine
+     */
+    Cart findActiveCartByOrderLine(OrderLine orderLine);
 
     /**
      * To create a new cart
      *
      * @param cart Cart
      */
-    void createCart(Cart cart);
+    Cart createCart(Cart cart);
+
+    /**
+     * To find a cart by id
+     * @param id Cart ID
+     * @return Cart
+     */
+    Cart findCartById(Long id) throws CartNotFoundException;
+
+    /**
+     * To find all carts
+     *
+     * @return list of Cart
+     */
+    List<Cart> findAllCarts();
 
     /**
      * To update an existing Cart
@@ -35,12 +71,6 @@ public interface CartService {
      */
     void updateCart(Cart cart) throws CartNotFoundException;
 
-    /**
-     * To update an existing Cart
-     * @param id Id
-     * @return Cart
-     */
-    Cart findCartById(Long id) throws CartNotFoundException;
 
     /**
      * To delete cart by id
@@ -53,12 +83,5 @@ public interface CartService {
      * @param id Id
      */
     void restoreCartById(Long id) throws CartNotFoundException;
-
-    void addProduct(Product product);
-
-    void removeProduct(Product product);
-
-    List<Product> getProductsInCart();
-
 
 }

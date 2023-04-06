@@ -4,8 +4,10 @@ import com.example.onlinestorebackend.exceptions.CategoryNotFoundException;
 import com.example.onlinestorebackend.exceptions.ProductNotFoundException;
 import com.example.onlinestorebackend.models.Category;
 import com.example.onlinestorebackend.models.Product;
+import com.example.onlinestorebackend.models.SubCategory;
 import com.example.onlinestorebackend.services.CategoryService;
 import com.example.onlinestorebackend.services.ProductService;
+import com.example.onlinestorebackend.services.SubCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
@@ -24,7 +26,7 @@ public class ProductController {
     private ProductService productService;
 
     @Autowired
-    private CategoryService categoryService;
+    private SubCategoryService subCategoryService;
 
     @GetMapping
     public String showProductListPage(Model model, @ModelAttribute("message") String message,
@@ -70,28 +72,25 @@ public class ProductController {
 
     // To show create product form page
     @GetMapping("/create")
-    public String createProduct(Model model,@ModelAttribute("product") Product product,@ModelAttribute("category") Category category,
+    public String createProduct(Model model, @ModelAttribute("product") Product product,
+                                @ModelAttribute("subCategory")SubCategory subCategory,
                                 @ModelAttribute("message") String message,
                                 @ModelAttribute("messageType") String messageType) {
-        model.addAttribute("categories",categoryService.findAllCategories());
+        model.addAttribute("subCategories",subCategoryService.findAllSubCategories());
         return "product/create-product";
     }
 
     // Called when we press submit button in the create product form
     @PostMapping
-    public String createProduct(Product product, RedirectAttributes redirectAttributes) {
+    public String createProduct(Product product, RedirectAttributes redirectAttributes) throws CategoryNotFoundException {
         try {
             Product searchProduct = productService.findProductByTitle(product.getTitle());
-            redirectAttributes.addFlashAttribute("message", String.format("Product(%s) already exists!", product.getTitle()));
+            redirectAttributes.addFlashAttribute("message", String.format("Product: %s already exists!", product.getTitle()));
             redirectAttributes.addFlashAttribute("messageType", "error");
             return "redirect:/product/create-product";
         } catch (ProductNotFoundException e) {
-            try {
-                productService.createProduct(product);
-            } catch (CategoryNotFoundException ex) {
-                return handleException(redirectAttributes,ex);
-            }
-            redirectAttributes.addFlashAttribute("message", String.format("Product(%s) has been created successfully!", product.getTitle()));
+            productService.createProduct(product);
+            redirectAttributes.addFlashAttribute("message", String.format("Product: %s has been created successfully!", product.getTitle()));
             redirectAttributes.addFlashAttribute("messageType", "success");
             return "redirect:/product";
         }
@@ -100,11 +99,11 @@ public class ProductController {
     public String showUpdateProductPage(@PathVariable String title,
                                         RedirectAttributes redirectAttributes,
                                         @RequestParam(value = "product", required = false) Product product,
-                                        Model model,@RequestParam(value = "category", required = false)Category category) {
+                                        Model model,@RequestParam(value = "subCategory", required = false)SubCategory subCategory) {
         if (product == null) {
             try {
                 model.addAttribute("product", productService.findProductByTitle(title));
-                model.addAttribute("categories",categoryService.findAllCategories());
+                model.addAttribute("subCategories",subCategoryService.findAllSubCategories());
             } catch (ProductNotFoundException e) {
                 return handleException(redirectAttributes, e);
             }
@@ -114,7 +113,6 @@ public class ProductController {
     @PostMapping("/update")
     public String updateProduct(Product product, RedirectAttributes redirectAttributes) {
         try {
-
             productService.updateProduct(product);
             redirectAttributes.addFlashAttribute("message", String.format("Product(%s) has been updated successfully!", product.getTitle()));
             redirectAttributes.addFlashAttribute("messageType", "success");
@@ -123,11 +121,6 @@ public class ProductController {
             return handleException(redirectAttributes, e);
         }
     }
-
-
-
-
-
 
     // PRIVATE METHODS //
     private String handleException(RedirectAttributes redirectAttributes, Exception e) {

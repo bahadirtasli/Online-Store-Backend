@@ -23,13 +23,9 @@
         <input type="text" aria-label="Name" class="form-control" th:field="*{name}" required>
       </div>
       <br/>
-      <div class="input-group">
-        <span class="input-group-text">Category Id</span>
-        <input type="number" aria-label="Id" class="form-control" th:field="*{id}" required>
-      </div>
-
-      <a class="btn btn-outline-dark" href="/category" role="button">Cancel</a>
       <button type="submit" class="btn btn-primary">Create</button>
+      <a class="btn btn-outline-dark" href="/category" role="button">Cancel</a>
+
     </form>
   </div>
   <div th:replace="fragments/script-fragment"></div>

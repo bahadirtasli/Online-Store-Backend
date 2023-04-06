@@ -16,13 +16,14 @@
 
         <form action="#" th:action="@{/subcategory/update}" method="post" th:object="${subcategory}">
             <div class="input-group">
-                <span class="input-group-text">Category id</span>
-                <input type="text" aria-label="Name" class="form-control" th:field="*{id}" required>
-            </div>
-            <br/>
-            <div class="input-group">
                 <span class="input-group-text">Category name</span>
                 <input type="text" aria-label="Name" class="form-control" th:field="*{name}" required>
+            </div>
+            <br/>
+            <div class="form-group mb-3">
+                <select class="form-select" aria-label="categories" th:field="*{category.id}">
+                    <option th:each="category: ${categories}" th:text="${category.name.replace('_', ' ')}" th:value="${category.id}"></option>
+                </select>
             </div>
             <br/>
             <input id="id" th:field="*{id}" type="hidden">

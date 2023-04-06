@@ -38,10 +38,9 @@
             </div>
             <br/>
             <div class="form-group mb-3">
-                <select class="form-select" aria-label="categories" th:field="*{category.id}">
-                    <option th:each="category:${categories}" th:text="${category.name.replace('_',' ')}" th:value="${category.id}">
+                <select class="form-select" aria-label="subCategories" th:field="*{subCategory.id}">
+                    <option th:each="subCategory:${subCategories}" th:text="${subCategory.name.replace('_',' ')}" th:value="${subCategory.id}">
                     </option>
-
                 </select>
             </div>
             <a class="btn btn-outline-dark" href="/product" role="button">Cancel</a>

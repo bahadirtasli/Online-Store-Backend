@@ -31,7 +31,7 @@ public class Product extends Auditable<String> implements Serializable {
     private float inventory;
     private String thumbnailUrl;
     @OneToOne(cascade = CascadeType.MERGE)
-    private Category category;
+    private SubCategory subCategory;
 
     private float price;
 

@@ -19,8 +19,10 @@ import static com.example.onlinestorebackend.utils.Constants.Security.*;
 @Component
 public class DataInit {
 
-    //@Autowired
-  //  private CartService cartService;
+    @Autowired
+    private OrderLineService orderLineService;
+    @Autowired
+    private CartService cartService;
     @Autowired
     private UserService userService;
 
@@ -42,22 +44,18 @@ public class DataInit {
         initAuthor();
         initCategory();
         initSubCategory();
-       // initCart();
+        initCart();
     }
 
-    /* private void initCart() {
+    private void initCart() {
         System.out.println("Starting initializing Cart..");
 
         Cart cart = new Cart();
-        cart.setQtyOfProducts(1);
-        cart.setProductPrice(5);
 
         try {
-            Product product = productService.findProductByTitle("basketball");
+            OrderLine orderLine = orderLineService.findOrderLineById(1L);
 
             Cart cart1 = new Cart();
-            cart1.setQtyOfProducts(5);
-            cart1.setProductPrice(55);
 
             try {
                 Cart searchCart = cartService.findCartById(cart.getId());
@@ -65,10 +63,10 @@ public class DataInit {
             } catch (CartNotFoundException e) {
                 cartService.createCart(cart);;
             }
-        } catch (ProductNotFoundException e) {
+        } catch (OrderLineNotFoundException e) {
             System.out.println("Can not pre-initialize category! Reason : " + e.getLocalizedMessage());
         }
-    } */
+    }
     private void initCategory() {
         System.out.println("Starting initializing Category..");
         Category category = new Category();
@@ -81,15 +79,49 @@ public class DataInit {
             categoryService.createCategory(category);
         }
     }
+    public void initSubCategory() {
+        System.out.println("Starting initializing Sub Category..");
+
+        try {
+            Category searchCategory = categoryService.findCategoryByName("Sports");
+
+            SubCategory subCategory = new SubCategory();
+            subCategory.setName("Balls");
+            subCategory.setName("Laptops");
+            subCategory.setCategory(searchCategory);
+
+            try {
+                SubCategory searchSubCategory = subCategoryService.findSubCategoryByName(subCategory.getName());
+                System.out.println("Cannot pre*initialize sub category: " + subCategory.getName());
+            } catch (SubCategoryNotFoundException e) {
+                subCategoryService.createSubCategory(subCategory);
+            }
+
+            SubCategory subCategory1 = new SubCategory();
+            subCategory1.setName("Smartphones");
+            subCategory1.setCategory(searchCategory);
+
+            try {
+                SubCategory searchSubCategory = subCategoryService.findSubCategoryByName(subCategory1.getName());
+                System.out.println("Cannot pre*initialize sub category: " + subCategory1.getName());
+            } catch (SubCategoryNotFoundException e) {
+                subCategoryService.createSubCategory(subCategory1);
+            }
+
+
+        } catch (CategoryNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     private void initProduct() {
         System.out.println("Starting initializing Product..");
 
         try {
-            Category searchCategory = categoryService.findCategoryByName("Sports");
+            SubCategory searchSubCategory = subCategoryService.findSubCategoryByName("Smartphones");
             Product product = new Product();
             product.setTitle("basketball");
-            product.setCategory(searchCategory);
+            product.setSubCategory(searchSubCategory);
             product.setDescription("ball");
             product.setInventory(4f);
 
@@ -99,7 +131,7 @@ public class DataInit {
             } catch (ProductNotFoundException e) {
                 productService.createProduct(product);;
             }
-        } catch (CategoryNotFoundException e) {
+        } catch (CategoryNotFoundException | SubCategoryNotFoundException e) {
             System.out.println("Can not pre-initialize category! Reason : " + e.getLocalizedMessage());
         }
     }
@@ -132,7 +164,7 @@ public class DataInit {
             user.setFullName("admin@finalproject.com");
             user.setPassword("12345");
             user.setAuthor(author);
-            //user.setRole(Role.CUSTOMER);
+
 
             try {
                 User resultUser = userService.findUserByFullName(user.getFullName());
@@ -154,43 +186,6 @@ public class DataInit {
         }
     }
 
-
-
-
-
-    public void initSubCategory() {
-        System.out.println("Starting initializing Sub Category..");
-
-        try {
-            Category searchCategory = categoryService.findCategoryByName("Sports");
-
-            SubCategory subCategory = new SubCategory();
-            subCategory.setName("Laptops");
-            subCategory.setCategory(searchCategory);
-
-            try {
-                SubCategory searchSubCategory = subCategoryService.findSubCategoryByName(subCategory.getName());
-                System.out.println("Cannot pre*initialize sub category: " + subCategory.getName());
-            } catch (SubCategoryNotFoundException e) {
-                subCategoryService.createSubCategory(subCategory);
-            }
-
-            SubCategory subCategory1 = new SubCategory();
-            subCategory1.setName("Smartphones");
-            subCategory1.setCategory(searchCategory);
-
-            try {
-                SubCategory searchSubCategory = subCategoryService.findSubCategoryByName(subCategory1.getName());
-                System.out.println("Cannot pre*initialize sub category: " + subCategory1.getName());
-            } catch (SubCategoryNotFoundException e) {
-                subCategoryService.createSubCategory(subCategory1);
-            }
-
-
-        } catch (CategoryNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
 }
 

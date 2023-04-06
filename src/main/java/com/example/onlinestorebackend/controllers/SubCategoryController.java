@@ -3,6 +3,7 @@ package com.example.onlinestorebackend.controllers;
 import com.example.onlinestorebackend.exceptions.SubCategoryNotFoundException;
 import com.example.onlinestorebackend.models.Category;
 import com.example.onlinestorebackend.models.SubCategory;
+import com.example.onlinestorebackend.services.CategoryService;
 import com.example.onlinestorebackend.services.SubCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/subcategory")
 public class SubCategoryController {
+    @Autowired
+    private CategoryService categoryService;
+
     @Autowired
     private SubCategoryService subCategoryService;
 
@@ -53,18 +57,19 @@ public class SubCategoryController {
     }
 
     @GetMapping("/create")
-    public String showCreateSubCategoryPage(@ModelAttribute("subcategory") SubCategory subCategory,
+    public String showCreateSubCategoryPage(Model model,@ModelAttribute("subcategory") SubCategory subCategory,
                                             @ModelAttribute("message") String message,
-                                            @ModelAttribute("messageType") String messageType) {
+                                            @ModelAttribute("messageType") String messageType,@ModelAttribute("category")Category category){
+        model.addAttribute("categories",categoryService.findAllCategories());
         return "category/subcategory/create-subcategory";
     }
 
     @PostMapping
-    public String createSubCategory(Category category,SubCategory subCategory, RedirectAttributes redirectAttributes) {
+    public String createSubCategory(Category category, SubCategory subCategory, RedirectAttributes redirectAttributes) {
 
         try {
             SubCategory searchSubCategory = subCategoryService.findSubCategoryByName(subCategory.getName());
-            redirectAttributes.addFlashAttribute("message", String.format("Sub category(%d) already exists!", subCategory.getName()));
+            redirectAttributes.addFlashAttribute("message", String.format("Sub category(%s) already exists!", subCategory.getName()));
             redirectAttributes.addFlashAttribute("messageType", "error");
             return "redirect:/category/subcategory/create-subcategory";
         } catch (SubCategoryNotFoundException e) {
@@ -79,6 +84,8 @@ public class SubCategoryController {
     public String showUpdateSubCategoryPage(@PathVariable Long id, RedirectAttributes redirectAttributes,
                                             @RequestParam(value = "subcategory", required = false) SubCategory subCategory,
                                             Model model) {
+        model.addAttribute("categories",categoryService.findAllCategories());
+
         if (subCategory == null) {
             try {
                 model.addAttribute("subcategory", subCategoryService.findSubCategoryById(id));

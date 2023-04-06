@@ -23,9 +23,13 @@ public class Cart extends Auditable<String> implements Serializable {
     @GeneratedValue
     private Long id;
     @OneToMany(cascade = CascadeType.MERGE)
-    private List<OrderLine> orderLines;
+    private List<OrderLine> orderLine;
     private float totalCost;
     private boolean isActive;
+
+    //cart created at signup
+
+
 
 
 }
